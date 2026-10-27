@@ -1,0 +1,12 @@
+# Machine-local Spec Kit state — not meant to be shared.
+# Managed by the Specify CLI; safe to edit.
+
+# Local pointer to the current feature directory.
+feature.json
+
+# Per-machine extension config overrides.
+extensions/*/local-config.yml
+
+# Executable adapter packages and their per-checkout provenance registry.
+integrations/packages/
+integrations/packages.json

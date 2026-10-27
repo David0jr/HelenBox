@@ -1,0 +1,122 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HelenBox WMS API",
+    "version": "1.0.0",
+    "description": "API REST e MCP do sistema de gerenciamento de estoque HelenBox"
+  },
+  "paths": {
+    "/api/invoices/upload": {
+      "post": {
+        "summary": "Upload e tradução de invoice chinesa (.xlsx/.csv)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": { "type": "string", "format": "binary" },
+                  "invoice_number": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Invoice processada e traduzida com sucesso" }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "summary": "Lista produtos com filtros por categoria, aroma e depósito",
+        "parameters": [
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "warehouse_id", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Lista de produtos e variações" }
+        }
+      },
+      "post": {
+        "summary": "Cadastro de novo produto com SKU HelenBox e código de barras",
+        "responses": {
+          "201": { "description": "Produto cadastrado" }
+        }
+      }
+    },
+    "/api/products/{id}/barcode": {
+      "get": {
+        "summary": "Gera etiqueta ou imagem do código de barras do produto",
+        "responses": {
+          "200": { "description": "Etiqueta em formato SVG ou PDF" }
+        }
+      }
+    },
+    "/api/warehouses": {
+      "get": {
+        "summary": "Lista depósitos (Galpão 1 e Galpão 2) com mapa de ruas e prateleiras",
+        "responses": {
+          "200": { "description": "Lista de galpões e localizações físicas" }
+        }
+      }
+    },
+    "/api/stock/locations/{location_id}": {
+      "get": {
+        "summary": "Visualiza todos os itens e caixas armazenados em uma rua/prateleira específica",
+        "responses": {
+          "200": { "description": "Conteúdo da localização física" }
+        }
+      }
+    },
+    "/api/stock/scan-out": {
+      "post": {
+        "summary": "Baixa de saída obrigatória via leitura de código de barras",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["barcode", "quantity", "order_id"],
+                "properties": {
+                  "barcode": { "type": "string", "description": "Código de barras lido pelo leitor" },
+                  "quantity": { "type": "integer", "default": 1 },
+                  "order_id": { "type": "string" },
+                  "location_id": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Bipagem confirmada e estoque atualizado com sucesso" },
+          "400": { "description": "Código de barras inválido ou item incorreto para este pedido" }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "summary": "Lista pedidos por status (Pendente, Em Separação, Conferido, Despachado)",
+        "responses": {
+          "200": { "description": "Lista de pedidos" }
+        }
+      },
+      "post": {
+        "summary": "Criação de pedido (manual ou via webhook Shopee/WhatsApp)",
+        "responses": {
+          "201": { "description": "Pedido criado e rota de picking calculada" }
+        }
+      }
+    },
+    "/api/orders/{id}/picking-list": {
+      "get": {
+        "summary": "Retorna lista de separação otimizada por rua e prateleira",
+        "responses": {
+          "200": { "description": "Roteiro de picking" }
+        }
+      }
+    }
+  }
+}

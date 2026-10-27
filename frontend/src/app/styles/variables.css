@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand Core (Helen Color) */
+  --helen-black: #111827;
+  --helen-sidebar: #ffffff;
+  --helen-red: #e51e2b;
+  --helen-red-hover: #c41420;
+  --helen-red-subtle: rgba(229, 30, 43, 0.08);
+  --helen-red-border: rgba(229, 30, 43, 0.2);
+
+  /* Semantic - Clean & Subdued */
+  --color-success: #10b981;
+  --color-success-bg: #ecfdf5;
+  --color-success-border: #a7f3d0;
+
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+
+  --color-danger: #ef4444;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
+
+  --color-neutral-badge: #f3f4f6;
+  --color-neutral-text: #4b5563;
+
+  /* Typography - Unified single font family per audio 1 */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Plus Jakarta Sans', monospace;
+
+  /* Radius Matching Reference Image (+money) */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-card: 20px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Light Theme - Clean, Executive, Soft White */
+body[data-theme='light'] {
+  --bg-app: #f9fafb;
+  --bg-sidebar: #ffffff;
+  --bg-topbar: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f3f4f6;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-input: #ffffff;
+
+  --border-light: #f3f4f6;
+  --border-subtle: #f9fafb;
+  --border-hover: #e5e7eb;
+  --border-focus: #111827;
+
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+
+  --table-stripe: #fafafa;
+  --table-hover: #f9fafb;
+}
+
+/* Dark Theme */
+body[data-theme='dark'] {
+  --bg-app: #0b0f17;
+  --bg-sidebar: #0f172a;
+  --bg-topbar: #0f172a;
+  --bg-surface: #131b2e;
+  --bg-surface-hover: #1e293b;
+  --bg-card: #131b2e;
+  --bg-card-hover: #172036;
+  --bg-elevated: #1e293b;
+  --bg-input: #0f172a;
+
+  --border-light: #1e293b;
+  --border-subtle: #172033;
+  --border-hover: #334155;
+  --border-focus: #ffffff;
+
+  --text-primary: #f9fafb;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px 0 rgba(0, 0, 0, 0.6);
+
+  --table-stripe: rgba(255, 255, 255, 0.015);
+  --table-hover: rgba(255, 255, 255, 0.035);
+
+  --color-success-bg: rgba(16, 185, 129, 0.15);
+  --color-success-border: rgba(16, 185, 129, 0.3);
+  --color-success: #34d399;
+
+  --color-warning-bg: rgba(245, 158, 11, 0.15);
+  --color-warning-border: rgba(245, 158, 11, 0.3);
+  --color-warning: #fbbf24;
+
+  --color-danger-bg: rgba(239, 68, 68, 0.15);
+  --color-danger-border: rgba(239, 68, 68, 0.3);
+  --color-danger: #f87171;
+
+  --color-neutral-badge: #1e293b;
+  --color-neutral-text: #94a3b8;
+}
