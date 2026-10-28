@@ -30,6 +30,9 @@ interface AppContextValue {
   // Products & Orders
   products: (Product & { variants: ProductVariant[] })[];
   orders: Order[];
+  setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
+  activePickingOrderId: string | null;
+  setActivePickingOrderId: React.Dispatch<React.SetStateAction<string | null>>;
 
   // Team & Logs
   teamMembers: TeamMember[];
@@ -86,7 +89,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // Data Store
   const [products] = useState(INITIAL_PRODUCTS);
-  const [orders] = useState(INITIAL_ORDERS);
+  const [orders, setOrders] = useState(INITIAL_ORDERS);
+  const [activePickingOrderId, setActivePickingOrderId] = useState<string | null>(INITIAL_ORDERS[0]?.id || null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(INITIAL_TEAM_MEMBERS);
   const [logs, setLogs] = useState<ActionAuditLog[]>(INITIAL_LOGS);
 
@@ -182,6 +186,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setCurrentWarehouse,
     products,
     orders,
+    setOrders,
+    activePickingOrderId,
+    setActivePickingOrderId,
     teamMembers,
     setTeamMembers,
     logs,
