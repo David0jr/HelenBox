@@ -58,8 +58,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       appContext.openRelocateModal();
     }
   };
-  // Timeframe filter state (Mês Atual / 30 Dias / Ano 2026)
-  const [timeframe, setTimeframe] = useState<'month' | '30days' | 'year'>('month');
   const [isStockVisible, setIsStockVisible] = useState(true);
   const [orderChannelFilter, setOrderChannelFilter] = useState<'ALL' | 'SHOPEE' | 'WHATSAPP'>('ALL');
   const [logFilter, setLogFilter] = useState<'TODAS' | 'ENTRADAS' | 'SAIDAS'>('TODAS');
@@ -132,70 +130,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               }}
               title="Operação Online & Sincronizada"
             />
-          </div>
-
-          {/* Timeframe Filter Pills */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              background: 'var(--bg-surface-hover)',
-              padding: '3px',
-              borderRadius: 'var(--radius-pill)',
-              border: '1px solid var(--border-light)',
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setTimeframe('month')}
-              style={{
-                padding: '4px 12px',
-                fontSize: '11.5px',
-                fontWeight: timeframe === 'month' ? 700 : 500,
-                borderRadius: 'var(--radius-pill)',
-                border: 'none',
-                background: timeframe === 'month' ? 'var(--helen-black)' : 'transparent',
-                color: timeframe === 'month' ? '#FFFFFF' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)',
-              }}
-            >
-              Mês Atual
-            </button>
-            <button
-              type="button"
-              onClick={() => setTimeframe('30days')}
-              style={{
-                padding: '4px 12px',
-                fontSize: '11.5px',
-                fontWeight: timeframe === '30days' ? 700 : 500,
-                borderRadius: 'var(--radius-pill)',
-                border: 'none',
-                background: timeframe === '30days' ? 'var(--helen-black)' : 'transparent',
-                color: timeframe === '30days' ? '#FFFFFF' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)',
-              }}
-            >
-              30 Dias
-            </button>
-            <button
-              type="button"
-              onClick={() => setTimeframe('year')}
-              style={{
-                padding: '4px 12px',
-                fontSize: '11.5px',
-                fontWeight: timeframe === 'year' ? 700 : 500,
-                borderRadius: 'var(--radius-pill)',
-                border: 'none',
-                background: timeframe === 'year' ? 'var(--helen-black)' : 'transparent',
-                color: timeframe === 'year' ? '#FFFFFF' : 'var(--text-secondary)',
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)',
-              }}
-            >
-              Ano 2026
-            </button>
           </div>
         </div>
 

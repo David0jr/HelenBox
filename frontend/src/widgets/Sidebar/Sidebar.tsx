@@ -98,14 +98,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const navItems = [
     { id: 'dashboard' as NavTab, path: '/dashboard', label: 'Visão Geral', icon: LayoutDashboard },
-    { id: 'movements' as NavTab, path: '/movimentacoes', label: 'Movimentações', icon: ArrowLeftRight },
+    { id: 'orders' as NavTab, path: '/pedidos', label: 'Pedidos', icon: ShoppingBag },
     { id: 'products' as NavTab, path: '/produtos', label: 'Produtos', icon: Package },
+    { id: 'picking' as NavTab, path: '/bipagem-picking', label: 'Bipagem / Picking', icon: Barcode },
     { id: 'invoices' as NavTab, path: '/invoices-cn', label: 'Invoices CN', icon: FileSpreadsheet },
     { id: 'warehouse' as NavTab, path: '/mapa-galpao', label: 'Mapa do Galpão', icon: MapPin },
     { id: 'relocate' as NavTab, path: '/realocar-carga', label: 'Realocar Carga', icon: Boxes },
-    { id: 'picking' as NavTab, path: '/bipagem-picking', label: 'Bipagem / Picking', icon: Barcode },
-    { id: 'orders' as NavTab, path: '/pedidos', label: 'Pedidos', icon: ShoppingBag },
     { id: 'permissions' as NavTab, path: '/permissoes', label: 'Permissões', icon: ShieldCheck },
+    { id: 'movements' as NavTab, path: '/movimentacoes', label: 'Movimentações', icon: ArrowLeftRight },
     { id: 'logs' as NavTab, path: '/auditoria', label: 'Auditoria', icon: History },
     { id: 'settings' as NavTab, path: '/configuracoes', label: 'Configurações', icon: Settings },
   ];
@@ -118,10 +118,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleLogout = () => {
-    if (window.confirm('Deseja realmente encerrar a sessão no HelenBox WMS?')) {
-      logout();
-      navigate('/login');
-    }
+    logout();
+    navigate('/login');
   };
 
   return (

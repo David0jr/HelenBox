@@ -7,6 +7,7 @@ import {
   X,
   MapPin,
   Package,
+  LogOut,
 } from 'lucide-react';
 import type { User, Product, ProductVariant } from '../../shared/types';
 import type { NavTab } from '../Sidebar/Sidebar';
@@ -39,7 +40,12 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user: authUser } = useAuth();
+  const { user: authUser, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const currentTab = propTab || ROUTE_TAB_MAP[location.pathname] || 'dashboard';
   const currentUser: User = propUser || authUser || {
@@ -419,6 +425,30 @@ export const Topbar: React.FC<TopbarProps> = ({
               {currentUser.role}
             </span>
           </div>
+        </button>
+
+        {/* Quick Logout Button next to profile */}
+        <button
+          type="button"
+          className="btn btn-ghost"
+          onClick={handleLogout}
+          style={{
+            width: '30px',
+            height: '30px',
+            padding: 0,
+            borderRadius: '50%',
+            color: 'var(--text-secondary)',
+            transition: 'all var(--transition-fast)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--color-danger)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-secondary)';
+          }}
+          title="Sair"
+        >
+          <LogOut size={15} />
         </button>
       </div>
     </header>
