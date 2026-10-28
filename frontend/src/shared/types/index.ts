@@ -69,14 +69,22 @@ export interface ProductUom {
 export interface ProductVariant {
   id: string;
   product_id: string;
-  variant_sku: string; // e.g. "HB-CUT-OIL-MOR" ou "HB-ESM-861-50"
-  aroma_flavor?: string; // e.g. "Morango", "Chocolate", "Café"
+  variant_sku: string; // e.g. "RGJ-2418-80" ou "CMJD-002PK"
+  aroma_flavor?: string; // e.g. "Morango", "Grão 80#", "Rosa"
   color_tone?: string;
-  collection_code?: string; // e.g. "#861" (Linha/Coleção de Esmaltes)
-  color_code?: string; // e.g. "#50" (Identificador da cor da hashtag)
+  collection_code?: string; // e.g. "#861" (Linha/Coleção)
+  color_code?: string; // e.g. "#50" ou "#80"
   hex_color?: string; // e.g. "#C49A6C" (Amostra visual da cor)
-  color_name?: string; // e.g. "Olho de Gato Ouro Rosa"
-  volume: string; // "5ml", "10ml", etc.
+  color_name?: string; // e.g. "Rosa-pink, grão 80#"
+  volume: string; // "30ml", "150ml", "50 un/cx", etc.
+  packaging_info?: string; // e.g. "12 caixinhas por saco grande · 100 dúzias por caixa"
+  unit_label?: string; // "Peça", "Dúzia", "Pacote"
+  qty_original?: number; // Quantidade na unidade original (ex: 200 Dúzias)
+  boxes_count?: number; // Caixas próprias (ex: 10)
+  units_per_box?: number; // Un. por caixa (ex: 144)
+  is_mixed_box?: boolean; // + 1 mista
+  box_numbers?: string; // Nº das caixas (ex: "347-350, 353")
+  container_date?: string; // e.g. "19/08/2026" ou "27/08/2026"
   image_url?: string;
   uoms?: ProductUom[];
   stock_units?: number;
@@ -148,6 +156,11 @@ export interface SupplierInvoice {
   invoice_number: string;
   file_name: string;
   upload_date: string;
+  container_type?: string;
+  origin_agent?: string;
+  gross_weight_kg?: number;
+  volume_cbm?: number;
+  mixed_boxes?: number;
   status: InvoiceStatus;
   total_items: number;
   total_boxes: number;
@@ -162,9 +175,16 @@ export interface InvoiceItem {
   supplier_code: string;
   raw_name_cn: string;
   translated_name_pt: string;
+  description_pt?: string;
+  packaging_info?: string;
+  unit_label?: string;
+  qty_original?: number;
   quantity_pcs: number;
   master_boxes?: number;
-  unit_price?: number;
+  units_per_box?: number;
+  is_mixed_box?: boolean;
+  box_numbers?: string;
+  image_url?: string;
   matched_variant_id?: string;
   physical_checked_qty: number;
 }
@@ -177,10 +197,17 @@ export interface Order {
   order_number: string;
   channel: OrderChannel;
   customer_name: string;
+  customer_phone?: string;
+  customer_document?: string;
+  shipping_address?: string;
+  shipping_city?: string;
+  notes?: string;
   status: OrderStatus;
   total_items: number;
   scanned_items: number;
   created_at: string;
+  assigned_to_id?: string;
+  assigned_to_name?: string;
   items: OrderItem[];
 }
 
