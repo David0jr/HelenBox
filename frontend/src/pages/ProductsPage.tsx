@@ -14,6 +14,7 @@ import {
 import type { Product, ProductVariant, ProductUom } from '../shared/types';
 import { HashtagSwatch } from '../shared/ui/HashtagSwatch';
 import { BackButton } from '../shared/ui/BackButton';
+import { useNavigate } from 'react-router-dom';
 
 import { useApp } from '../app/context/AppContext';
 
@@ -72,9 +73,10 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
 }) => {
   const appContext = useApp();
   const products = propProducts || appContext.products;
+  const navigate = useNavigate();
   const onOpenLabelModal = propOnOpenLabelModal || appContext.openLabelModal;
   const onOpenRelocateModal = propOnOpenRelocateModal || appContext.openRelocateModal;
-  const onAddNewProduct = propOnAddNewProduct || (() => alert('Cadastrar Produto: Formulário de SKU HelenBox'));
+  const onAddNewProduct = propOnAddNewProduct || (() => navigate('/produtos/novo'));
 
   const [activeTab, setActiveTab] = useState<'ALL' | 'IN_STOCK' | 'MIXED_BOX' | 'OUT_OF_STOCK'>('ALL');
   const [filterText, setFilterText] = useState('');

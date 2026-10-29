@@ -12,6 +12,7 @@ import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage';
 import { DashboardPage } from '../../pages/DashboardPage';
 import { MovementsPage } from '../../pages/MovementsPage';
 import { ProductsPage } from '../../pages/ProductsPage';
+import { NewProductPage } from '../../pages/NewProductPage';
 import { InvoicesPage } from '../../pages/InvoicesPage';
 import { WarehouseMapPage } from '../../pages/WarehouseMapPage';
 import { RelocatePage } from '../../pages/RelocatePage';
@@ -65,6 +66,8 @@ export const AppRouter: React.FC = () => {
 
         {/* 3. Produtos */}
         <Route path="/produtos" element={<ProductsPage />} />
+        <Route path="/produtos/novo" element={<NewProductPage />} />
+        <Route path="/produtos/cadastrar" element={<Navigate to="/produtos/novo" replace />} />
         <Route path="/products" element={<Navigate to="/produtos" replace />} />
 
         {/* 4. Invoices CN */}

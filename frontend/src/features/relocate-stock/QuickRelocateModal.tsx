@@ -265,10 +265,11 @@ export const QuickRelocateModal: React.FC<QuickRelocateModalProps> = ({
                   fontWeight: 600,
                 }}
               >
-                <option value="CXM">CXM - Caixa Master (1200 un)</option>
-                <option value="CX">CX - Caixa Display (24 un)</option>
+                <option value="CXM">
+                  CXM - Caixa Master ({variant?.units_per_box ? `${variant.units_per_box} un` : 'Master'})
+                </option>
                 <option value="DZ">DZ - Dúzia (12 un)</option>
-                <option value="UN">UN - Unidades Avulsas</option>
+                <option value="UN">UN - Unidade Avulsa (1 un)</option>
               </select>
             </div>
           </div>

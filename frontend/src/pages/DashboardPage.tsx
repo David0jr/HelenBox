@@ -5,11 +5,7 @@ import {
   Clock,
   ShoppingBag,
   ArrowRightLeft,
-  Barcode,
-  Eye,
-  EyeOff,
   ArrowRight,
-  CheckCircle2,
   ExternalLink,
   Smartphone,
   Truck,
@@ -18,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import type { Product, ProductVariant, Order, ActionAuditLog } from '../shared/types';
 import type { NavTab } from '../widgets/Sidebar/Sidebar';
 import { TAB_ROUTE_MAP } from '../widgets/Sidebar/Sidebar';
-import { HashtagSwatch } from '../shared/ui/HashtagSwatch';
 import { useApp } from '../app/context/AppContext';
 
 interface DashboardPageProps {
@@ -58,14 +53,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       appContext.openRelocateModal();
     }
   };
-  const [isStockVisible, setIsStockVisible] = useState(true);
   const [orderChannelFilter, setOrderChannelFilter] = useState<'ALL' | 'SHOPEE' | 'WHATSAPP'>('ALL');
   const [logFilter, setLogFilter] = useState<'TODAS' | 'ENTRADAS' | 'SAIDAS'>('TODAS');
 
   // Aggregates
   const totalVariants = products.reduce((acc, p) => acc + p.variants.length, 0);
   const totalUnits = products.reduce((acc, p) => acc + (p.total_stock_units || 0), 0);
-  const masterBoxesCount = Math.floor(totalUnits / 1200);
+  // Total consolidado de todas as caixas (99 caixas + 120 fracionadas auditadas = 219 caixas master)
+  const masterBoxesCount = 219;
   const pendingOrders = orders.filter((o) => o.status === 'PENDING' || o.status === 'PICKING');
 
   // Filtered orders for the new functional orders queue
@@ -170,24 +165,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     fontFamily: 'var(--font-sans)',
                   }}
                 >
-                  {isStockVisible ? `${totalUnits.toLocaleString('pt-BR')} un` : '•••••••'}
+                  {totalUnits.toLocaleString('pt-BR')} un
                 </span>
-                <button
-                  type="button"
-                  onClick={() => setIsStockVisible((prev) => !prev)}
-                  title={isStockVisible ? 'Ocultar saldo' : 'Exibir saldo'}
-                  style={{
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    color: 'var(--text-muted)',
-                    padding: '2px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  {isStockVisible ? <Eye size={15} /> : <EyeOff size={15} />}
-                </button>
               </div>
             </div>
 
@@ -217,10 +196,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     fontFamily: 'var(--font-sans)',
                   }}
                 >
-                  {isStockVisible ? `${masterBoxesCount} CXM` : '•••••••'}
-                </span>
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '8px' }}>
-                  (120 cx fracionadas)
+                  {masterBoxesCount} CXM
                 </span>
               </div>
             </div>
@@ -245,7 +221,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
             <button
               type="button"
-              onClick={() => onNavigate('picking')}
+              onClick={() => onNavigate('orders')}
               className="btn btn-primary"
               style={{
                 padding: '9px 18px',
@@ -258,14 +234,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
               }}
             >
-              <Barcode size={15} />
-              <span>+ Bipar Pedido</span>
+              <Package size={15} />
+              <span>Ver Esteira</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* 2. Operational KPI Cards (Executive & Refined, replacing clunky cards) */}
+      {/* 2. Operational KPI Cards (Executive & Refined, clean metrics without clutter) */}
       <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
           {/* Card 1: Total SKUs */}
@@ -290,9 +266,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
             <div style={{ fontSize: '26px', fontWeight: 800, marginTop: '4px', color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>
               {products.length} <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-muted)' }}>SKUs</span>
-            </div>
-            <div style={{ fontSize: '11.5px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-              {totalVariants} variações (#hashtags e aromas)
             </div>
           </div>
 
@@ -319,9 +292,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div style={{ fontSize: '26px', fontWeight: 800, marginTop: '4px', color: 'var(--helen-red)', letterSpacing: '-0.5px' }}>
               {masterBoxesCount} <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-muted)' }}>caixas</span>
             </div>
-            <div style={{ fontSize: '11.5px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-              Importações conferidas da China
-            </div>
           </div>
 
           {/* Card 3: FEFO Priority */}
@@ -347,9 +317,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div style={{ fontSize: '26px', fontWeight: 800, marginTop: '4px', color: '#2563EB', letterSpacing: '-0.5px' }}>
               2 <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-muted)' }}>lotes</span>
             </div>
-            <div style={{ fontSize: '11.5px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-              Lote 2026-08 (#861 #50) vence em 18d
-            </div>
           </div>
 
           {/* Card 4: Pedidos Pendentes */}
@@ -374,9 +341,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>
             <div style={{ fontSize: '26px', fontWeight: 800, marginTop: '4px', color: '#D97706', letterSpacing: '-0.5px' }}>
               {pendingOrders.length} <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-muted)' }}>pedidos</span>
-            </div>
-            <div style={{ fontSize: '11.5px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-              Fila Shopee Express & WhatsApp
             </div>
           </div>
         </div>
@@ -473,7 +437,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
 
           {/* Orders List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {displayOrders.map((order) => {
               const isShopee = order.channel === 'SHOPEE';
 
@@ -484,7 +448,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '12px 14px',
+                    padding: '12px 16px',
                     borderRadius: 'var(--radius-md)',
                     background: 'var(--bg-surface-hover)',
                     border: '1px solid var(--border-light)',
@@ -492,89 +456,46 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     transition: 'border-color var(--transition-fast)',
                   }}
                 >
-                  {/* Left: Channel Badge & Customer Info */}
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                      <span
-                        style={{
-                          fontSize: '10px',
-                          fontWeight: 700,
-                          padding: '2px 7px',
-                          borderRadius: 'var(--radius-pill)',
-                          backgroundColor: isShopee ? '#FFF7ED' : '#F0FDF4',
-                          color: isShopee ? '#EA580C' : '#16A34A',
-                          border: `1px solid ${isShopee ? '#FDBA74' : '#86EFAC'}`,
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                        }}
-                      >
-                        {isShopee ? <Truck size={10} /> : <Smartphone size={10} />}
-                        {isShopee ? 'Shopee Express' : 'WhatsApp Direto'}
-                      </span>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                        {order.order_number}
-                      </span>
-                    </div>
-
-                    <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
-                      {order.customer_name}
-                    </div>
-
-                    {/* Order items preview with hashtag swatches */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
-                      {order.items.map((item) => (
-                        <div
-                          key={item.id}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            fontSize: '11px',
-                            color: 'var(--text-muted)',
-                            background: 'var(--bg-surface)',
-                            padding: '1px 6px',
-                            borderRadius: '4px',
-                            border: '1px solid var(--border-light)',
-                          }}
-                        >
-                          <span>{item.quantity_ordered}x</span>
-                          <span>{item.product_name}</span>
-                          {item.collection_code && (
-                            <HashtagSwatch
-                              collectionCode={item.collection_code}
-                              colorCode={item.color_code}
-                              hexColor={item.hex_color}
-                              size="sm"
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Right: Action Button to start picking */}
-                  <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                    <button
-                      type="button"
-                      onClick={() => onNavigate('picking')}
-                      className="btn btn-primary"
+                  {/* Left: Channel Badge + Customer Name */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                    <span
                       style={{
-                        padding: '6px 14px',
-                        fontSize: '11.5px',
-                        fontWeight: 600,
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        padding: '3px 9px',
                         borderRadius: 'var(--radius-pill)',
-                        display: 'flex',
+                        backgroundColor: isShopee ? '#FFF7ED' : '#F0FDF4',
+                        color: isShopee ? '#EA580C' : '#16A34A',
+                        border: `1px solid ${isShopee ? '#FDBA74' : '#86EFAC'}`,
+                        display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '6px',
+                        gap: '4px',
+                        flexShrink: 0,
                       }}
                     >
-                      <Barcode size={13} />
-                      <span>Bipar</span>
-                    </button>
-                    <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                      {isShopee ? <Truck size={11} /> : <Smartphone size={11} />}
+                      {isShopee ? 'Shopee' : 'WhatsApp'}
+                    </span>
+
+                    <span
+                      style={{
+                        fontSize: '13px',
+                        fontWeight: 700,
+                        color: 'var(--text-primary)',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {order.customer_name}
+                    </span>
+                  </div>
+
+                  {/* Right: Timestamp */}
+                  <div style={{ flexShrink: 0, textAlign: 'right' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>
                       {order.created_at}
-                    </div>
+                    </span>
                   </div>
                 </div>
               );

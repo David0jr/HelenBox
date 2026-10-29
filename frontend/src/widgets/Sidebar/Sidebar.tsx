@@ -53,6 +53,8 @@ export const ROUTE_TAB_MAP: Record<string, NavTab> = {
   '/movimentacoes': 'movements',
   '/movements': 'movements',
   '/produtos': 'products',
+  '/produtos/novo': 'products',
+  '/produtos/cadastrar': 'products',
   '/products': 'products',
   '/invoices-cn': 'invoices',
   '/invoices': 'invoices',

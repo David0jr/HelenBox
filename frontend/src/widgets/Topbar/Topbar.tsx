@@ -153,9 +153,24 @@ export const Topbar: React.FC<TopbarProps> = ({
           SISTEMA
         </span>
         <span style={{ fontSize: '11px', color: 'var(--border-hover)', opacity: 0.7 }}>/</span>
-        <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.6px', textTransform: 'uppercase' }}>
-          {tabTitles[currentTab] || 'VISÃO GERAL'}
-        </span>
+        {location.pathname.startsWith('/produtos/novo') || location.pathname.startsWith('/produtos/cadastrar') ? (
+          <>
+            <span
+              onClick={() => navigate('/produtos')}
+              style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.6px', textTransform: 'uppercase', cursor: 'pointer' }}
+            >
+              PRODUTOS
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--border-hover)', opacity: 0.7 }}>/</span>
+            <span style={{ fontSize: '11.5px', fontWeight: 800, color: 'var(--helen-red)', letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+              NOVO PRODUTO
+            </span>
+          </>
+        ) : (
+          <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+            {tabTitles[currentTab] || 'VISÃO GERAL'}
+          </span>
+        )}
       </div>
 
       {/* Center: Sophisticated, Compact Pill Search Bar (diminuído e refinado per feedback) */}

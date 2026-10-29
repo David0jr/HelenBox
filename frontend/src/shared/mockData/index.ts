@@ -3807,12 +3807,10 @@ export const INITIAL_ORDERS: Order[] = [
     shipping_address: 'Rua Augusta, 1520 - Sala 42, Consolação',
     shipping_city: 'São Paulo - SP • CEP 01304-001',
     notes: 'Enviar catálogo atualizado de cores #861 junto na caixa.',
-    status: 'PICKING',
+    status: 'PENDING',
     total_items: 3,
-    scanned_items: 2,
+    scanned_items: 0,
     created_at: 'Hoje, 08:30',
-    assigned_to_id: 'user-operator',
-    assigned_to_name: 'Carlos Oliveira',
     items: [
       {
         id: 'item-1',
@@ -3825,12 +3823,12 @@ export const INITIAL_ORDERS: Order[] = [
         hex_color: '#B76E79',
         uom_type: 'UN',
         quantity_ordered: 2,
-        quantity_scanned: 2,
+        quantity_scanned: 0,
         location_code: 'DEP1-R02-P01-N2',
         warehouse_code: 'DEP1',
         lot_number: 'LOT-2026-08 (FEFO Primeiro)',
         expiration_date: '15/11/2026',
-        status: 'CHECKED',
+        status: 'PENDING',
       },
       {
         id: 'item-2',
@@ -3992,12 +3990,10 @@ export const INITIAL_ORDERS: Order[] = [
     customer_document: '31.509.211/0001-67',
     shipping_address: 'Rua XV de Novembro, 410 - Centro',
     shipping_city: 'Curitiba - PR • CEP 80020-310',
-    status: 'PICKING',
+    status: 'PENDING',
     total_items: 12,
-    scanned_items: 6,
+    scanned_items: 0,
     created_at: 'Hoje, 08:10',
-    assigned_to_id: 'user-viewer',
-    assigned_to_name: 'Mariana Costa',
     items: [
       {
         id: 'item-7',
@@ -4010,12 +4006,12 @@ export const INITIAL_ORDERS: Order[] = [
         hex_color: '#E51E2B',
         uom_type: 'UN',
         quantity_ordered: 6,
-        quantity_scanned: 6,
+        quantity_scanned: 0,
         location_code: 'DEP1-R02-P03-N1',
         warehouse_code: 'DEP1',
         lot_number: 'LOT-2026-08',
         expiration_date: '18/11/2026',
-        status: 'CHECKED',
+        status: 'PENDING',
       },
       {
         id: 'item-8',
@@ -4050,6 +4046,8 @@ export const INITIAL_ORDERS: Order[] = [
     total_items: 12,
     scanned_items: 12,
     created_at: 'Hoje, 07:40',
+    assigned_to_id: 'user-viewer',
+    assigned_to_name: 'Mariana Costa',
     items: [
       {
         id: 'item-9',
@@ -4208,6 +4206,14 @@ export const INITIAL_TEAM_MEMBERS: TeamMember[] = [
 ];
 
 export const INITIAL_LOGS: ActionAuditLog[] = [
+  {
+    id: 'log-div-mock-1',
+    user_name: 'Mariana Costa',
+    action_type: 'SCAN_DIVERGENCE',
+    location: 'Esteira HelenBox',
+    details: 'Divergência na bipagem do pedido WPP-20261027-395: Produto não relacionado (Óleo Cutícula Morango Doce). Operador manteve com justificativa: "Cliente solicitou inclusão de 1 óleo brinde via WhatsApp após fechamento"',
+    created_at: 'Hoje, 08:25:00',
+  },
   {
     id: 'log-1',
     user_name: 'David HelenBox (Admin)',

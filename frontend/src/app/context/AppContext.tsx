@@ -29,6 +29,7 @@ interface AppContextValue {
 
   // Products & Orders
   products: (Product & { variants: ProductVariant[] })[];
+  addProduct: (newProduct: Product & { variants: ProductVariant[] }) => void;
   orders: Order[];
   setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
   activePickingOrderId: string | null;
@@ -87,10 +88,46 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [warehouses] = useState<Warehouse[]>(INITIAL_WAREHOUSES);
   const [currentWarehouse, setCurrentWarehouse] = useState<Warehouse>(INITIAL_WAREHOUSES[0]);
 
-  // Data Store
-  const [products] = useState(INITIAL_PRODUCTS);
+  // Data Store with persistence for custom products
+  const [products, setProducts] = useState<(Product & { variants: ProductVariant[] })[]>(() => {
+    try {
+      const saved = localStorage.getItem('helenbox_products_custom');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return [...parsed, ...INITIAL_PRODUCTS];
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return INITIAL_PRODUCTS;
+  });
+
+  const addProduct = (newProd: Product & { variants: ProductVariant[] }) => {
+    setProducts((prev) => {
+      const next = [newProd, ...prev];
+      try {
+        const customProds = next.filter((p) => p.id.startsWith('prod-custom-') || !INITIAL_PRODUCTS.some((ip) => ip.id === p.id));
+        localStorage.setItem('helenbox_products_custom', JSON.stringify(customProds));
+      } catch {
+        // ignore storage errors
+      }
+      return next;
+    });
+
+    const newLog: ActionAuditLog = {
+      id: `log-${Date.now()}`,
+      user_name: user?.name || 'Administrador',
+      action_type: 'RELOCATE',
+      location: newProd.location_summary || 'Galpão 1',
+      details: `Cadastrou o produto ${newProd.name_pt} (SKU: ${newProd.sku_helenbox})`,
+      created_at: 'Agora mesmo',
+    };
+    setLogs((prev) => [newLog, ...prev]);
+  };
   const [orders, setOrders] = useState(INITIAL_ORDERS);
-  const [activePickingOrderId, setActivePickingOrderId] = useState<string | null>(INITIAL_ORDERS[0]?.id || null);
+  const [activePickingOrderId, setActivePickingOrderId] = useState<string | null>(null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(INITIAL_TEAM_MEMBERS);
   const [logs, setLogs] = useState<ActionAuditLog[]>(INITIAL_LOGS);
 
@@ -185,6 +222,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     currentWarehouse,
     setCurrentWarehouse,
     products,
+    addProduct,
     orders,
     setOrders,
     activePickingOrderId,

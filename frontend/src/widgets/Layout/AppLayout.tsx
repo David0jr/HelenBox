@@ -38,7 +38,7 @@ export const AppLayout: React.FC = () => {
       <Sidebar
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleSidebar}
-        onAddNewProduct={() => navigate('/produtos')}
+        onAddNewProduct={() => navigate('/produtos/novo')}
       />
 
       {/* Main Viewport */}

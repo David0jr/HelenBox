@@ -192,6 +192,23 @@ export interface InvoiceItem {
 export type OrderChannel = 'SHOPEE' | 'WHATSAPP' | 'MANUAL';
 export type OrderStatus = 'PENDING' | 'PICKING' | 'CHECKED' | 'DISPATCHED';
 
+export interface OrderDivergence {
+  id: string;
+  order_id: string;
+  order_number: string;
+  operator_id: string;
+  operator_name: string;
+  scanned_code: string;
+  product_name: string;
+  divergence_type: 'NOT_IN_ORDER' | 'QUANTITY_EXCEEDED';
+  reason: string;
+  status: 'AUDITED' | 'PENDING_REVIEW';
+  created_at: string;
+  audited_by_name?: string;
+  audited_at?: string;
+  audit_notes?: string;
+}
+
 export interface Order {
   id: string;
   order_number: string;
@@ -208,6 +225,8 @@ export interface Order {
   created_at: string;
   assigned_to_id?: string;
   assigned_to_name?: string;
+  has_divergence?: boolean;
+  divergences?: OrderDivergence[];
   items: OrderItem[];
 }
 
@@ -237,6 +256,7 @@ export type ActionLogType =
   | 'SEARCH' 
   | 'VIEW_LOCATION' 
   | 'SCAN_OUT' 
+  | 'SCAN_DIVERGENCE'
   | 'INVOICE_IMPORT' 
   | 'UNBOX'
   | 'RELOCATE'

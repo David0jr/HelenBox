@@ -8,6 +8,7 @@ import {
   ArrowRightLeft,
   FileSpreadsheet,
   UserCheck,
+  AlertTriangle,
 } from 'lucide-react';
 import type { ActionAuditLog } from '../shared/types';
 import { BackButton } from '../shared/ui/BackButton';
@@ -40,6 +41,8 @@ export const SecurityLogsPage: React.FC<SecurityLogsPageProps> = ({ logs: propLo
 
   const getActionBadge = (action: string) => {
     switch (action) {
+      case 'SCAN_DIVERGENCE':
+        return <span className="badge badge-danger"><AlertTriangle size={12} /> Divergência Bipagem</span>;
       case 'SCAN_OUT':
         return <span className="badge badge-success"><Barcode size={12} /> Bipagem Saída</span>;
       case 'RELOCATE':
@@ -89,6 +92,7 @@ export const SecurityLogsPage: React.FC<SecurityLogsPageProps> = ({ logs: propLo
             }}
           >
             <option value="ALL">Todas as Ações</option>
+            <option value="SCAN_DIVERGENCE">Divergências de Bipagem (SCAN_DIVERGENCE)</option>
             <option value="SCAN_OUT">Bipagem de Saída (SCAN_OUT)</option>
             <option value="RELOCATE">Realocação de Carga (RELOCATE)</option>
             <option value="SEARCH">Consultas de Estoque (SEARCH)</option>
